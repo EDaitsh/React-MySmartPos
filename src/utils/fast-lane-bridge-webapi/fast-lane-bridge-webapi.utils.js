@@ -58,6 +58,30 @@ export const callAPI= async(actionName,req) =>{
         console.log(result);
         console.log(`End ${actionName}`)
     })
+    .catch((error) => console.log('error from FL API',error))
 
-  return res;
+    try{
+    var array = JSON.parse("[" + res + "]")[0];
+      const messageMap = array.reduce((acc, message) => {
+      const {name, fields} = message
+      
+      acc[name] = (
+        fields.reduce((accumaltor, field) => {
+          const {name, Value} = field;
+          accumaltor[name] = Value;
+          return accumaltor;
+        }, {})
+      );
+
+      return acc;
+   }, {})
+
+   console.log(messageMap);
+   return messageMap;    
+  }
+
+  catch(error){
+    console.log('error from FL API response', error);
+  }
+  //return res;
 }
