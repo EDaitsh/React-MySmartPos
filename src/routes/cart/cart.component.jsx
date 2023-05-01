@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { CartContext } from '../../contexts/cart.context';
+import CartItems from '../../components/cart-items/cart-items.component'
 
 import AddCustomerReq from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi-template/AddCustomer';
 import AddItemReq from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi-template/AddItem';
@@ -15,7 +16,7 @@ const VoidTransaction = VoidTransactionReq;
 
 const Cart = () => {
     const [response, setResponse] = useState("");
-    const {cartTotal,setCartTotal} = useContext(CartContext);
+    const {addItemToCart} = useContext(CartContext);
 
     const callWS = async(actionName) => {
         const request = eval(actionName);
@@ -25,8 +26,7 @@ const Cart = () => {
   };
 
   const AddItemHandler = async() => {
-    const res = await callAPI('AddItem', AddItem);
-    setCartTotal(10);
+    await addItemToCart({upc: 3457954, quantity: 1});
   }
 
   return(
@@ -56,7 +56,7 @@ const Cart = () => {
             <EndTransaction/>
         </div>
         <div>
-            {response}
+            <CartItems/>
         </div>
       </div>
   )

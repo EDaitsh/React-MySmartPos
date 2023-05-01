@@ -14,28 +14,6 @@ const Init = InitReq;
 
 const App= () => {
 
-  console.log('App');
-
-//   const [action, setAction] = useState('init');
-//   const [request, setRequest] = useState(Init);
-//   const [uuid, setUuid] = useState('id' + (new Date()).getTime());
-//   const [response, setResponse] = useState('Please Wait...');
-
-//   //const data  = useApi(action, request,uuid);
-
-//   useEffect(() => {
-//     if (data && data !== null) {
-//         setResponse(data);
-//     }
-//   }, [data]);
-
-//   const callWS = (event) => {
-//     setAction(event.target.innerHTML);
-//     setRequest(eval(event.target.innerHTML));
-//     setUuid('id' + (new Date()).getTime());
-//     setResponse('Please Wait...')
-//   };
-
     const [isLoading, setLoading] = useState(true); // Loading state
 
 

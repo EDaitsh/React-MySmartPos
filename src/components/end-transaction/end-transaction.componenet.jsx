@@ -1,4 +1,4 @@
-import { useState,useContext } from "react";
+import { useState,useContext, useEffect } from "react";
 import { CartContext } from "../../contexts/cart.context";
 
 import Button from "../button/button.component"
@@ -34,13 +34,15 @@ export const EndTransaction =() => {
     const [buttonText, setButtonText] = useState(initialButtonText);
     
 
-    
+    useEffect(() => {
+        changeText(initialButtonText);
+    }, [cartTotal])
 
     const suspendTransaction= async() =>{
         changeText("Please Wait...");
         const res  = await callAPI('SuspendTransaction', SuspendTransaction);
         initialCartState();
-        changeText(initialButtonText);
+        //changeText(initialButtonText);
     }
 
     const changeText = (text) => setButtonText(text);

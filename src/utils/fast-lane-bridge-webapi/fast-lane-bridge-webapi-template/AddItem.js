@@ -4,7 +4,7 @@ const AddItem = {
             "ftype": "string",
             "value": "3457954"
         }, {
-            "name": " Quantity",
+            "name": "Quantity",
             "ftype": "int",
             "value": "1"
         }

@@ -9,7 +9,6 @@ const SignIn = () => {
     
     const SignInHandler= async() =>{
         const res  = await callAPI('Signon', Signon,123);
-        console.log("success")
         navigate('/cart');
     }
     return (

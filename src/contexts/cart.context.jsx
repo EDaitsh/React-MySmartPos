@@ -1,11 +1,45 @@
 import { createContext, useState, useEffect } from "react";
+import { addItemReq } from "../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils";
+
+
+const addCartItem = (cartItems, productToAdd) => {
+    const existsingCartItem = cartItems.find((cartItem) => cartItem.upc === productToAdd.upc);
+    if(existsingCartItem){
+        return cartItems.map((cartItem) => 
+            cartItem.upc === productToAdd.upc 
+            ? {...cartItem, quantity: cartItem.quantity + 1}
+            : cartItem
+        );
+    }
+    return [...cartItems, {...productToAdd, quantity: 1}]
+}
+
+
+const removeCartItem = (cartItems, cartItemToRemove) => {
+    const existsingCartItem = cartItems.find((cartItem) => cartItem.upc === cartItemToRemove.upc);
+    if(existsingCartItem.quantity >1){
+        return cartItems.map((cartItem) => 
+            cartItem.upc === cartItemToRemove.upc 
+            ? {...cartItem, quantity: cartItem.quantity - 1}
+            : cartItem
+        )
+    } else{
+        return cartItems.filter((cartItem) => cartItem.upc !== cartItemToRemove.upc);
+    }
+}
+
+const clearCartItem = (cartItems, cartItemToRemove) => cartItems.filter((cartItem) => cartItem.upc !== cartItemToRemove.upc);
+
 
 export const CartContext = createContext({
     cartItems: [],
     cartCount: 0,
     cartTotal: 0,
     setCartTotal: () => {},
-    initialCartState: ()=> {}
+    initialCartState: ()=> {},
+    addItemToCart: () => {},
+    removeItemFromCart: () => {},
+    clearItemFromCart: () => {}
 });
 
 export const CartProvider=({children}) => {
@@ -22,18 +56,32 @@ export const CartProvider=({children}) => {
 
     const initialCartState =() => {
         setCartItems([]);
-        setCartCount(0);
-        setCartTotal(0);
       }
 
-    console.log(cartTotal);
+     const addItemToCart= async(productToAdd) => {
+        const {upc, quantity} = productToAdd;
+        const res = await addItemReq(upc, quantity);
+        setCartItems(addCartItem(cartItems, res["ItemSold"]));
+    }
+
+    const removeItemFromCart= (cartItemToRemove) => {
+        setCartItems(removeCartItem(cartItems, cartItemToRemove));
+    }
+
+    const clearItemFromCart = (cartItemToRemove) => {
+        setCartItems(clearCartItem(cartItems, cartItemToRemove));
+    }
+
 
     const value = {
         cartItems,
         cartCount,
         cartTotal,
         setCartTotal,
-        initialCartState
+        initialCartState,
+        addItemToCart,
+        removeItemFromCart,
+        clearItemFromCart
     }
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>

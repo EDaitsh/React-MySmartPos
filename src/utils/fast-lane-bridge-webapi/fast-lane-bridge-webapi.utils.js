@@ -1,39 +1,3 @@
-// import { useState, useEffect } from 'react';
-
-// const useApi = (actionName,req, uuid = null) => {
-//     const [response, setResponse] = useState(null);
-
-//     console.log('useApi');
-//     const header = {
-//         'Content-Type': 'application/json',
-//       };
-
-//     const reqInit = {
-//         method: 'Post',
-//         //mode: 'no-cors',
-//         headers: header,
-//         body: JSON.stringify(req),
-//         credentials: 'include',
-//       };
-      
-
-//     useEffect(() => {
-//         console.log(`Start ${actionName}`)
-//         fetch(`http://localhost/FLWebAPI/api/FastLane/${actionName}`,reqInit)
-//         .then((response) => response.text())
-//         .then((result) => {
-//             setResponse(result);
-//             console.log(result);
-//             console.log(`End ${actionName}`)
-//         })
-//       }, [actionName, req, uuid]);
-
-//       return response;
-
-// }
-
-// export default useApi
-
 export const callAPI= async(actionName,req) =>{
     console.log('callApi');
     const header = {
@@ -55,8 +19,6 @@ export const callAPI= async(actionName,req) =>{
     .then((response) => response.text())
     .then((result) => {
         res= result;
-        console.log(result);
-        console.log(`End ${actionName}`)
     })
     .catch((error) => console.log('error from FL API',error))
 
@@ -68,7 +30,7 @@ export const callAPI= async(actionName,req) =>{
       acc[name] = (
         fields.reduce((accumaltor, field) => {
           const {name, Value} = field;
-          accumaltor[name] = Value;
+          accumaltor[name.toLowerCase()] = Value;
           return accumaltor;
         }, {})
       );
@@ -85,3 +47,38 @@ export const callAPI= async(actionName,req) =>{
   }
   //return res;
 }
+
+
+export const addItemReq = async(upc, quantity) => {
+  let reqArguments ={
+    UPC: upc,
+    Quantity:quantity
+  };
+  const req = generateReq(generateReqArrayFiels(reqArguments),"Item")
+  console.log('AddItemReq:', req);
+  const res =await callAPI('AddItem', req);
+  return res;
+}
+
+const generateReqField = (name, value) => ({
+    name: name,
+    ftype: "string",
+    value: value
+  });
+
+  const generateReqArrayFiels =(reqArguments) => {
+    let entries = Object.entries(reqArguments)
+    let data = entries.map((entry) => {
+    const [key, val] = entry;
+      return generateReqField(key, val);
+    });
+    return data;
+  }
+
+const generateReq = (fields, name) =>  ({
+    fields: fields,
+    msgid: "b1",
+    name: name
+  });
+
+
