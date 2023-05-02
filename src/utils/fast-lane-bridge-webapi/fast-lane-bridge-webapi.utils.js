@@ -80,6 +80,14 @@ export const suspendTransactionReq = async() => {
     return res;
 }
 
+export const VoidTransactionReq = async() => {
+  const req = generateReq(null,"VoidTransaction")
+  console.log('VoidTransactionReq:', req);
+  const res =await callAPI('VoidTransaction', req);
+  return res;
+}
+
+
 
 const generateReqField = (name, value) => ({
     name: name,

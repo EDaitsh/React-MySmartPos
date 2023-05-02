@@ -6,13 +6,7 @@ import { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 import { suspendTransactionReq } from "../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils"
 
-import SuspendTransaction from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi-template/SuspendTransaction';
-
 import './end-transaction.styles.scss'
-
-
-
-
 
 export const EndTransaction =() => {
     
@@ -29,23 +23,18 @@ export const EndTransaction =() => {
         )
     }
 
-
     const {cartTotal, initialCartState}= useContext(CartContext);
     const [buttonText, setButtonText] = useState(initialButtonText);
     
-
     useEffect(() => {
-        changeText(initialButtonText);
+        setButtonText(initialButtonText);
     }, [cartTotal])
 
     const suspendTransaction= async() =>{
-        changeText("Please Wait...");
+        setButtonText("Please Wait...");
         const res  = await suspendTransactionReq();
         initialCartState();
-        //changeText(initialButtonText);
     }
-
-    const changeText = (text) => setButtonText(text);
 
     return (
         <Button onClick={suspendTransaction} buttonType={BUTTON_TYPE_CLASSES.endTransaction}>
@@ -53,3 +42,5 @@ export const EndTransaction =() => {
         </Button>
     )
 }
+
+export default EndTransaction
