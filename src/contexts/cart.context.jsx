@@ -3,15 +3,16 @@ import { addItemReq } from "../utils/fast-lane-bridge-webapi/fast-lane-bridge-we
 
 
 const addCartItem = (cartItems, productToAdd) => {
+    console.log(productToAdd);
     const existsingCartItem = cartItems.find((cartItem) => cartItem.upc === productToAdd.upc);
     if(existsingCartItem){
         return cartItems.map((cartItem) => 
             cartItem.upc === productToAdd.upc 
-            ? {...cartItem, quantity: cartItem.quantity + 1}
+            ? {...cartItem, quantity: parseInt(cartItem.quantity) + parseInt(productToAdd.quantity)}
             : cartItem
         );
     }
-    return [...cartItems, {...productToAdd, quantity: 1}]
+    return [...cartItems, {...productToAdd, quantity: productToAdd.quantity}]
 }
 
 
