@@ -72,6 +72,15 @@ export const voidItemReq = async(upc, quantity) => {
   return res;
 }
 
+
+export const suspendTransactionReq = async() => {
+    const req = generateReq(null,"SuspendTransaction")
+    console.log('suspendTransactionReq:', req);
+    const res =await callAPI('SuspendTransaction', req);
+    return res;
+}
+
+
 const generateReqField = (name, value) => ({
     name: name,
     ftype: "string",

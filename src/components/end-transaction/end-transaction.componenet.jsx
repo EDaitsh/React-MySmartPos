@@ -4,7 +4,7 @@ import { CartContext } from "../../contexts/cart.context";
 import Button from "../button/button.component"
 import { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
-import { callAPI } from "../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils"
+import { suspendTransactionReq } from "../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils"
 
 import SuspendTransaction from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi-template/SuspendTransaction';
 
@@ -40,7 +40,7 @@ export const EndTransaction =() => {
 
     const suspendTransaction= async() =>{
         changeText("Please Wait...");
-        const res  = await callAPI('SuspendTransaction', SuspendTransaction);
+        const res  = await suspendTransactionReq();
         initialCartState();
         //changeText(initialButtonText);
     }
