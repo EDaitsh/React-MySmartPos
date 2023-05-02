@@ -74,7 +74,9 @@ export const CartProvider=({children}) => {
         setCartItems(removeCartItem(cartItems, cartItemToRemove));
     }
 
-    const clearItemFromCart = (cartItemToRemove) => {
+    const clearItemFromCart = async(cartItemToRemove) => {
+        const {upc, quantity} = cartItemToRemove;
+        const res = await voidItemReq(upc, quantity);
         setCartItems(clearCartItem(cartItems, cartItemToRemove));
     }
 
