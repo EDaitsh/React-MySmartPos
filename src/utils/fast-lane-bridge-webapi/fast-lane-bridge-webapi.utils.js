@@ -28,7 +28,7 @@ export const callAPI= async(actionName,req) =>{
       const {name, fields} = message
       
       acc[name] = (
-        fields.reduce((accumaltor, field) => {
+        fields?.reduce((accumaltor, field) => {
           const {name, Value} = field;
           accumaltor[name.toLowerCase()] = Value;
           return accumaltor;
@@ -57,6 +57,18 @@ export const addItemReq = async(upc, quantity) => {
   const req = generateReq(generateReqArrayFiels(reqArguments),"Item")
   console.log('AddItemReq:', req);
   const res =await callAPI('AddItem', req);
+  return res;
+}
+
+export const voidItemReq = async(upc, quantity) => {
+  const reqArguments = {
+    UPC: upc,
+    Quantity:quantity,
+  };
+
+  const req = generateReq(generateReqArrayFiels(reqArguments),"VoidItem")
+  console.log('VoidtemReq:', req);
+  const res =await callAPI('VoidItem', req);
   return res;
 }
 

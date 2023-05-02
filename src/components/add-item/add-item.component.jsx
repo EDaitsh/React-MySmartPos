@@ -15,7 +15,6 @@ const AddItem = () => {
     const {addItemToCart} = useContext(CartContext);
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {upc, quantity} = formFields;
-    console.log(quantity);
 
     const handlerChange = (event) => {
         const {name, value} = event.target;
@@ -30,7 +29,7 @@ const AddItem = () => {
         event.preventDefault();
         
         try{
-            await addItemToCart({upc: upc, quantity: quantity});
+            await addItemToCart(upc, quantity);
             resetFormFields();
         } catch(error){
             console.log(error);

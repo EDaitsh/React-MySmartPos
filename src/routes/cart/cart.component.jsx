@@ -33,12 +33,6 @@ const Cart = () => {
           <AddItem/>
         </div>
         <div>
-          <button onClick={() => callWS('VoidItem')}>
-              VoidItem
-          </button>
-        </div>
-       
-        <div>
           <button onClick={() => callWS('VoidTransaction')}>
               VoidTransaction
           </button>

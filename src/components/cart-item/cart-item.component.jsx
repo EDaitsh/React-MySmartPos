@@ -8,7 +8,7 @@ const CartItem = ({cartItem}) => {
     const {addItemToCart, removeItemFromCart, clearItemFromCart} = useContext(CartContext);
 
     const addItemHandler = () => {
-        addItemToCart(cartItem);
+        addItemToCart(cartItem.upc);
     };
 
     const removeItemHandler= ()=> {

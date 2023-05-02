@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from "react";
-import { addItemReq } from "../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils";
+import { addItemReq,
+         voidItemReq
+       } from "../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils";
 
 
 const addCartItem = (cartItems, productToAdd) => {
@@ -12,7 +14,7 @@ const addCartItem = (cartItems, productToAdd) => {
             : cartItem
         );
     }
-    return [...cartItems, {...productToAdd, quantity: productToAdd.quantity}]
+    return [...cartItems, {...productToAdd}]
 }
 
 
@@ -52,20 +54,23 @@ export const CartProvider=({children}) => {
     useEffect (()=> 
     {
         setCartCount(cartItems.reduce((count, item) => count + item.quantity, 0));
-        setCartTotal(cartItems.reduce((total, item) => total +(item.quantity * item.price),0));
+        setCartTotal(cartItems.reduce((total, item) => 
+            total +parseFloat((item.quantity * item.price).toFixed(2))
+        ,0));
     }, [cartItems]);
 
     const initialCartState =() => {
         setCartItems([]);
       }
 
-     const addItemToCart= async(productToAdd) => {
-        const {upc, quantity} = productToAdd;
+     const addItemToCart= async(upc, quantity = 1) => {
         const res = await addItemReq(upc, quantity);
         setCartItems(addCartItem(cartItems, res["ItemSold"]));
     }
 
-    const removeItemFromCart= (cartItemToRemove) => {
+    const removeItemFromCart= async(cartItemToRemove) => {
+        const {upc} = cartItemToRemove;
+        const res = await voidItemReq(upc, 1);
         setCartItems(removeCartItem(cartItems, cartItemToRemove));
     }
 
