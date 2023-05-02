@@ -1,19 +1,58 @@
+import { useState } from "react";
+
 //import Button from "../../components/button/button.component";
-import { callAPI } from "../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils"; 
-import Signon from "../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi-template/Signon";
+import { signInReq } from "../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils"; 
 import { useNavigate } from "react-router-dom";
 
-const SignIn = () => {
-    const navigate = useNavigate();
+const defaultFormFields = {
+    userId: '',
+    password: ''
+}
 
+const SignIn = () => {
+    const [formFields, setFormFields] = useState(defaultFormFields);
+    const {userId, password} = formFields;
+    const navigate = useNavigate();
     
-    const SignInHandler= async() =>{
-        const res  = await callAPI('Signon', Signon,123);
-        navigate('/cart');
+    const handlerChange = (event) => {
+        const {name, value} = event.target;
+        setFormFields({...formFields, [name]: value});
     }
+
+    const SignInHandler= async(event) =>{
+        event.preventDefault();
+        
+        try{
+            await signInReq(userId, password);
+            navigate('/cart');
+        } 
+        catch(error){
+            console.log(error);
+        }
+    }
+   
     return (
         <div>
-            <button onClick={SignInHandler}> Sign In </button>
+            <form onSubmit={SignInHandler}>
+                <input 
+                    placeholder='UserID'
+                    type="text" 
+                    required onChange={handlerChange} 
+                    name="userId"
+                    value={userId}
+                />
+                <input 
+                    placeholder='Password'
+                    type="text" 
+                    required onChange={handlerChange}   
+                    name="password"
+                    value={password}
+                />
+                <button>
+                    SignIn
+                </button>
+            
+            </form>
         </div>
     )
 }

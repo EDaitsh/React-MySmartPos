@@ -48,6 +48,28 @@ export const callAPI= async(actionName,req) =>{
   //return res;
 }
 
+export const initReq = async(machineName) => {
+  const reqArguments = {
+    MachineName: machineName
+  }
+  const req = generateReq(generateReqArrayFiels(reqArguments),"Initialize")
+  console.log('InitializeReq:', req);
+  const res =await callAPI('init', req);
+  return res;
+}
+
+
+export const signInReq = async(userId, password) => {
+  const reqArguments = {
+    UserId: userId,
+    Password: password
+  }
+  const req = generateReq(generateReqArrayFiels(reqArguments),"SignOn")
+  console.log('SignOnReq:', req);
+  const res =await callAPI('Signon', req);
+  return res;
+}
+ 
 
 export const addItemReq = async(upc, quantity) => {
   let reqArguments ={

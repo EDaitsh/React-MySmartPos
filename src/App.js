@@ -1,16 +1,13 @@
 import {Routes, Route} from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-// import useApi from './/utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils'
-import { callAPI } from './utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils';
-import InitReq from './utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi-template/Init';
+import { initReq } from './utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils';
 
 import SignIn from './routes/sign-in/sign-in.component';
 import Cart from './routes/cart/cart.component';
 
 import './App.css';
 
-const Init = InitReq;
 
 const App= () => {
 
@@ -19,7 +16,8 @@ const App= () => {
 
     const initialize = async() => {
         
-        const initRes = await callAPI('init', Init);
+      
+        const initRes = await initReq('WILED250178-7NM');
         setLoading(false); //set loading state
     }
 
