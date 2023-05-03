@@ -70,6 +70,15 @@ export const signInReq = async(userId, password) => {
   return res;
 }
  
+export const addCustomerReq = async(customerNumber) => {
+  const reqArguments = {
+    CustomerNumber: customerNumber
+  }
+  const req = generateReq(generateReqArrayFiels(reqArguments),"AddCustomerByManualCard")
+  console.log('AddCustomerReq:', req);
+  const res =await callAPI('AddCustomer', req);
+  return res;
+}
 
 export const addItemReq = async(upc, quantity) => {
   let reqArguments ={
@@ -102,7 +111,7 @@ export const suspendTransactionReq = async() => {
     return res;
 }
 
-export const VoidTransactionReq = async() => {
+export const voidTransactionReq = async() => {
   const req = generateReq(null,"VoidTransaction")
   console.log('VoidTransactionReq:', req);
   const res =await callAPI('VoidTransaction', req);

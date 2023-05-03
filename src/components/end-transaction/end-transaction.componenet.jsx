@@ -34,6 +34,7 @@ export const EndTransaction =() => {
         setButtonText("Please Wait...");
         const res  = await suspendTransactionReq();
         initialCartState();
+        setButtonText(initialButtonText);
     }
 
     return (

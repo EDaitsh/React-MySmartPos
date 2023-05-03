@@ -1,6 +1,6 @@
 const AddCustomer = {
     "fields": [{
-            "name": " CustomerNumber",
+            "name": "CustomerNumber",
             "ftype": "string",
             "value": "1000061"
         }

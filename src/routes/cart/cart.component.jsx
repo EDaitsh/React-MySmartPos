@@ -1,28 +1,40 @@
-import { useState } from 'react';
-import CartItems from '../../components/cart-items/cart-items.component'
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { LoyaltyContext } from "../../contexts/loyalty.context";
 
-import AddCustomerReq from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi-template/AddCustomer';
-import { callAPI } from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils';
+import CartItems from '../../components/cart-items/cart-items.component'
 import EndTransaction  from '../../components/end-transaction/end-transaction.componenet';
 import AddItem from '../../components/add-item/add-item.component';
 import VoidTransaction from '../../components/void-transaction/void-transaction.component';
+import { CartContext } from "../../contexts/cart.context";
 
-const AddCustomer = AddCustomerReq;
 
 const Cart = () => {
-    const [response, setResponse] = useState("");
+    const navigate = useNavigate();
+    const {loyaltyNumber} = useContext(LoyaltyContext);
+    const {cartCount} = useContext(CartContext);
 
-    const callWS = async(actionName) => {
-        const request = eval(actionName);
-        setResponse('Please Wait...');
-        const res = await callAPI(actionName, request);
-        setResponse(res);
-  };
+    console.log(loyaltyNumber);
 
+    const addCustomerHandler = () =>{
+      navigate('/addCustomer');
+    }
+    
+  
   return(
        <div>
+       <div>
+          <span>
+            {cartCount}
+          </span>
+        </div>
         <div>
-            <button onClick={() => callWS('AddCustomer')}>
+          <span>
+            {loyaltyNumber}
+          </span>
+       </div>
+        <div>
+            <button onClick={addCustomerHandler}>
               AddCustomer
             </button>
             <VoidTransaction/>
@@ -30,14 +42,12 @@ const Cart = () => {
         <div> 
           <AddItem/>
         </div>
-      
         <div>
           <CartItems/>
         </div>
         <div>
             <EndTransaction/>
         </div>
-       
       </div>
   )
 }

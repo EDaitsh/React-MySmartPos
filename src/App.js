@@ -5,6 +5,7 @@ import { initReq } from './utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi
 
 import SignIn from './routes/sign-in/sign-in.component';
 import Cart from './routes/cart/cart.component';
+import AddCustomer from './components/add-customer/add-customer.component';
 
 import './App.css';
 
@@ -37,6 +38,7 @@ const App= () => {
     <Routes>
         <Route index element={<SignIn/>}/>
         <Route path= "/cart" element={<Cart/>} />
+        <Route path= "/addCustomer" element={<AddCustomer/>} />
     </Routes>
   );
 }
