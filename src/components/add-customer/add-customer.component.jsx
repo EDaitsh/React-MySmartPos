@@ -1,21 +1,22 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 
-import { LoyaltyContext } from '../../contexts/loyalty.context';
 
 import { addCustomerReq } from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils';
 import './add-customer.styles.scss'
 
+import { setLoyaltyNumber } from '../../store/loyalty/loyalty.action';
 
 const defaultFormFields = {
     customerNumber: ''
 }
 
 const AddCustomer = () => {
+    const dispatch = useDispatch();
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {customerNumber} = formFields;
 
-    const {setLoyaltyNumber} = useContext(LoyaltyContext);
 
     const navigate = useNavigate();
     
@@ -30,10 +31,8 @@ const AddCustomer = () => {
         try{
             const {LoyaltyCard} = await addCustomerReq(customerNumber);
             const {status} = LoyaltyCard;
-            console.log(status);
             if(status){
-                setLoyaltyNumber(customerNumber);
-                console.log('loyaltyNumber', customerNumber);
+                dispatch(setLoyaltyNumber(customerNumber));
             }
             navigate('/cart');
         } 

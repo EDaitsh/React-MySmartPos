@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { LoyaltyContext } from "../../contexts/loyalty.context";
+import { useSelector } from "react-redux";
 
 import CartItems from '../../components/cart-items/cart-items.component'
 import EndTransaction  from '../../components/end-transaction/end-transaction.componenet';
@@ -8,13 +8,13 @@ import AddItem from '../../components/add-item/add-item.component';
 import VoidTransaction from '../../components/void-transaction/void-transaction.component';
 import { CartContext } from "../../contexts/cart.context";
 
+import { selectLoyaltyNumer } from "../../store/loyalty/loyalty.selector";
+
 
 const Cart = () => {
     const navigate = useNavigate();
-    const {loyaltyNumber} = useContext(LoyaltyContext);
+    const loyaltyNumber = useSelector(selectLoyaltyNumer);
     const {cartCount} = useContext(CartContext);
-
-    console.log(loyaltyNumber);
 
     const addCustomerHandler = () =>{
       navigate('/addCustomer');
