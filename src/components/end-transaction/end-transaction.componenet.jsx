@@ -1,5 +1,8 @@
-import { useState,useContext, useEffect } from "react";
-import { CartContext } from "../../contexts/cart.context";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { initialCartState } from "../../store/cart/cart.action";
+import { initLoyaltyNumber } from "../../store/loyalty/loyalty.action";
+import { selectCartTotal } from "../../store/cart/cart.selector";
 
 import Button from "../button/button.component"
 import { BUTTON_TYPE_CLASSES } from "../button/button.component";
@@ -9,7 +12,9 @@ import { suspendTransactionReq } from "../../utils/fast-lane-bridge-webapi/fast-
 import './end-transaction.styles.scss'
 
 export const EndTransaction =() => {
-    
+    const dispatch = useDispatch();
+    const cartTotal = useSelector(selectCartTotal);
+
     const initialButtonText = () => {
         return (
             <span className="end-transaction-button-container">
@@ -23,7 +28,6 @@ export const EndTransaction =() => {
         )
     }
 
-    const {cartTotal, initialCartState}= useContext(CartContext);
     const [buttonText, setButtonText] = useState(initialButtonText);
     
     useEffect(() => {
@@ -33,7 +37,8 @@ export const EndTransaction =() => {
     const suspendTransaction= async() =>{
         setButtonText("Please Wait...");
         const res  = await suspendTransactionReq();
-        initialCartState();
+        dispatch(initialCartState());
+        dispatch(initLoyaltyNumber());
         setButtonText(initialButtonText);
     }
 

@@ -1,8 +1,8 @@
-import { useState, useContext } from 'react';
-import { CartContext } from '../../contexts/cart.context';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCartItems } from '../../store/cart/cart.selector';
 
-import Button from '../button/button.component';
-import {BUTTON_TYPE_CLASSES} from '../button/button.component'
+import { addItemToCart } from '../../store/cart/cart.action';
 
 import './add-item.styles.scss'
 
@@ -12,9 +12,10 @@ const defaultFormFields= {
 }
 
 const AddItem = () => {
-    const {addItemToCart} = useContext(CartContext);
+    const dispatch = useDispatch();
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {upc, quantity} = formFields;
+    const cartItems = useSelector(selectCartItems);
 
     const handlerChange = (event) => {
         const {name, value} = event.target;
@@ -29,7 +30,8 @@ const AddItem = () => {
         event.preventDefault();
         
         try{
-            await addItemToCart(upc, quantity);
+            dispatch(await addItemToCart(cartItems, upc, quantity));
+            console.log(cartItems);
             resetFormFields();
         } catch(error){
             console.log(error);

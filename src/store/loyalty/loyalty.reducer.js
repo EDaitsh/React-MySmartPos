@@ -13,6 +13,11 @@ export const loyaltyReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loyaltyNumber: payload
             }
+        case LOYALTY_ACTION_TYPE.INIT_LOYALTY_NUMBER:
+            return {
+                ...state,
+                loyaltyNumber: []
+            }
         default:
             return state;
     }
