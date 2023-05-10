@@ -1,45 +1,41 @@
 import {Routes, Route} from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect,  Fragment } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCallApiIsLoading } from './store/call-api/call-api.selector';
 
-import { initReq } from './utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils';
+import { initRequest } from './store/call-api/call-api.action';
 
 import SignIn from './routes/sign-in/sign-in.component';
 import Cart from './routes/cart/cart.component';
 import AddCustomer from './components/add-customer/add-customer.component';
+import Spinner from './components/spinner/spinner.component';
 
 import './App.css';
 
 
 const App= () => {
-
-    const [isLoading, setLoading] = useState(true); // Loading state
-
-
-    const initialize = async() => {
-        
-      
-        const initRes = await initReq('WILED250178-7NM');
-        setLoading(false); //set loading state
-    }
+  const dispatch = useDispatch();
+  const isLoading = useSelector(selectCallApiIsLoading);
 
     useEffect(()=> {
-        initialize();
-    }, [])
-
-
-    if (isLoading) {
-        return (
-        <div className='initialize-container'>Initialize...</div>
-      );
-    }
+        dispatch(initRequest('WILED250178-7NM'))
+    }, [dispatch])
 
   return(
-   
-    <Routes>
-        <Route index element={<SignIn/>}/>
-        <Route path= "/cart" element={<Cart/>} />
-        <Route path= "/addCustomer" element={<AddCustomer/>} />
-    </Routes>
+    <Fragment>
+      {isLoading? 
+        (
+          <Spinner/>
+        ) :
+        (
+          <Routes>
+            <Route index element={<SignIn/>}/>
+            <Route path= "/cart" element={<Cart/>} />
+            <Route path= "/addCustomer" element={<AddCustomer/>} />
+          </Routes>
+        )
+      }
+    </Fragment>
   );
 }
 

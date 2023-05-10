@@ -1,4 +1,11 @@
-export const callAPI= async(actionName,req) =>{
+export const callApi = (actionName, payload, dispatch) => {
+  return new Promise((resolve, reject) => {
+    dispatch({ type: actionName, payload, resolve, reject });
+  });
+};
+
+
+const callApiFLWebService= async(actionName,req) =>{
     console.log('callApi');
     const header = {
         'Content-Type': 'application/json',
@@ -20,9 +27,9 @@ export const callAPI= async(actionName,req) =>{
     .then((result) => {
         res= result;
     })
-    .catch((error) => console.log('error from FL API',error))
+    //.catch((error) => console.log('error from FL API',error))
 
-    try{
+    //try{
     var array = JSON.parse("[" + res + "]")[0];
       const messageMap = array.reduce((acc, message) => {
       const {name, fields} = message
@@ -40,11 +47,11 @@ export const callAPI= async(actionName,req) =>{
 
    console.log(messageMap);
    return messageMap;    
-  }
+  //}
 
-  catch(error){
-    console.log('error from FL API response', error);
-  }
+  // catch(error){
+  //   console.log('error from FL API response', error);
+  // }
   //return res;
 }
 
@@ -54,19 +61,20 @@ export const initReq = async(machineName) => {
   }
   const req = generateReq(generateReqArrayFiels(reqArguments),"Initialize")
   console.log('InitializeReq:', req);
-  const res =await callAPI('init', req);
+  const res =await callApiFLWebService('init', req);
   return res;
 }
 
 
-export const signInReq = async(userId, password) => {
-  const reqArguments = {
+export const signInReq = async({userId, password}) => {
+  const reqArguments ={
     UserId: userId,
-    Password: password
-  }
+    Password:password
+  };
+  console.log(reqArguments);
   const req = generateReq(generateReqArrayFiels(reqArguments),"SignOn")
   console.log('SignOnReq:', req);
-  const res =await callAPI('Signon', req);
+  const res =await callApiFLWebService('Signon', req);
   return res;
 }
  
@@ -76,22 +84,22 @@ export const addCustomerReq = async(customerNumber) => {
   }
   const req = generateReq(generateReqArrayFiels(reqArguments),"AddCustomerByManualCard")
   console.log('AddCustomerReq:', req);
-  const res =await callAPI('AddCustomer', req);
+  const res =await callApiFLWebService('AddCustomer', req);
   return res;
 }
 
-export const addItemReq = async(upc, quantity) => {
+export const addItemReq = async({upc, quantity}) => {
   let reqArguments ={
     UPC: upc,
     Quantity:quantity
   };
   const req = generateReq(generateReqArrayFiels(reqArguments),"Item")
   console.log('AddItemReq:', req);
-  const res =await callAPI('AddItem', req);
+  const res =await callApiFLWebService('AddItem', req);
   return res;
 }
 
-export const voidItemReq = async(upc, quantity) => {
+export const voidItemReq = async({upc, quantity}) => {
   const reqArguments = {
     UPC: upc,
     Quantity:quantity,
@@ -99,7 +107,7 @@ export const voidItemReq = async(upc, quantity) => {
 
   const req = generateReq(generateReqArrayFiels(reqArguments),"VoidItem")
   console.log('VoidtemReq:', req);
-  const res =await callAPI('VoidItem', req);
+  const res =await callApiFLWebService('VoidItem', req);
   return res;
 }
 
@@ -107,14 +115,14 @@ export const voidItemReq = async(upc, quantity) => {
 export const suspendTransactionReq = async() => {
     const req = generateReq(null,"SuspendTransaction")
     console.log('suspendTransactionReq:', req);
-    const res =await callAPI('SuspendTransaction', req);
+    const res =await callApiFLWebService('SuspendTransaction', req);
     return res;
 }
 
 export const voidTransactionReq = async() => {
   const req = generateReq(null,"VoidTransaction")
   console.log('VoidTransactionReq:', req);
-  const res =await callAPI('VoidTransaction', req);
+  const res =await callApiFLWebService('VoidTransaction', req);
   return res;
 }
 

@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCallApiIsLoading, selectCallApiResponse } from '../../store/call-api/call-api.selector';
+import { addCustomerRequest } from '../../store/call-api/call-api.action';
+import { callApi } from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils';
 
-
-import { addCustomerReq } from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils';
 import './add-customer.styles.scss'
 
 import { setLoyaltyNumber } from '../../store/loyalty/loyalty.action';
+import Spinner from '../spinner/spinner.component';
 
 const defaultFormFields = {
     customerNumber: ''
@@ -16,7 +18,7 @@ const AddCustomer = () => {
     const dispatch = useDispatch();
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {customerNumber} = formFields;
-
+    const isLoading = useSelector(selectCallApiIsLoading);
 
     const navigate = useNavigate();
     
@@ -28,34 +30,40 @@ const AddCustomer = () => {
     const addCustomerHandler= async(event) =>{
         event.preventDefault();
         
-        try{
-            const {LoyaltyCard} = await addCustomerReq(customerNumber);
-            const {status} = LoyaltyCard;
-            if(status){
-                dispatch(setLoyaltyNumber(customerNumber));
-            }
-            navigate('/cart');
-        } 
-        catch(error){
-            console.log(error);
-        }
+        callApi('addCustomer_request', customerNumber, dispatch)
+            .then((response) => {
+                const {LoyaltyCard: {status}} = response;
+                if({status}){
+                    dispatch(setLoyaltyNumber(customerNumber));
+                }
+                navigate('/cart');
+            })
+            .catch((error) => {
+            });
     }
    
     return (
         <div>
-            <form onSubmit={addCustomerHandler}>
-                <input 
-                    placeholder='Customer Number'
-                    type="text" 
-                    required onChange={handlerChange} 
-                    name="customerNumber"
-                    value={customerNumber}
-                />
-                <button>
-                    Add Customer
-                </button>
-            
-            </form>
+            {
+                isLoading ? 
+                (
+                    <Spinner/>
+                ) :
+                (
+                    <form onSubmit={addCustomerHandler}>
+                        <input 
+                        placeholder='Customer Number'
+                        type="text" 
+                        required onChange={handlerChange} 
+                        name="customerNumber"
+                        value={customerNumber}
+                        />
+                    <button>
+                        Add Customer
+                    </button>
+                </form>
+                )
+            }
         </div>
     )
 }

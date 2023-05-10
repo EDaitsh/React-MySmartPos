@@ -1,8 +1,11 @@
-import { useState } from "react";
-
+import { useState, Fragment } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCallApiIsLoading } from "../../store/call-api/call-api.selector";
 //import Button from "../../components/button/button.component";
-import { signInReq } from "../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils"; 
+import { signInRequest } from "../../store/call-api/call-api.action";
 import { useNavigate } from "react-router-dom";
+
+import Spinner from "../../components/spinner/spinner.component";
 
 const defaultFormFields = {
     userId: '',
@@ -10,6 +13,8 @@ const defaultFormFields = {
 }
 
 const SignIn = () => {
+    const dispatch = useDispatch();
+    const isLoading = useSelector(selectCallApiIsLoading);
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {userId, password} = formFields;
     const navigate = useNavigate();
@@ -21,39 +26,43 @@ const SignIn = () => {
 
     const SignInHandler= async(event) =>{
         event.preventDefault();
-        
-        try{
-            await signInReq(userId, password);
-            navigate('/cart');
-        } 
-        catch(error){
-            console.log(error);
-        }
+        dispatch(signInRequest({userId, password}))
+        navigate('/cart');
     }
    
     return (
-        <div>
-            <form onSubmit={SignInHandler}>
-                <input 
-                    placeholder='UserID'
-                    type="text" 
-                    required onChange={handlerChange} 
-                    name="userId"
-                    value={userId}
-                />
-                <input 
-                    placeholder='Password'
-                    type="text" 
-                    required onChange={handlerChange}   
-                    name="password"
-                    value={password}
-                />
-                <button>
-                    SignIn
-                </button>
-            
-            </form>
-        </div>
+        <Fragment>
+        {
+            isLoading ?
+            (
+                <Spinner/>
+            ):
+            (
+                <div>
+                    <form onSubmit={SignInHandler}>
+                        <input 
+                            placeholder='UserID'
+                            type="text" 
+                            required onChange={handlerChange} 
+                            name="userId"
+                            value={userId}
+                        />
+                        <input 
+                            placeholder='Password'
+                            type="text" 
+                            required onChange={handlerChange}   
+                            name="password"
+                            value={password}
+                        />
+                        <button>
+                            SignIn
+                        </button>
+                    
+                    </form>
+                </div>
+            )
+        }
+        </Fragment>
     )
 }
 
