@@ -1,12 +1,10 @@
-export const callApi = (actionName, payload, dispatch) => {
-  return new Promise((resolve, reject) => {
+export const callApi = (actionName, payload, dispatch) => 
+  new Promise((resolve, reject) => {
     dispatch({ type: actionName, payload, resolve, reject });
   });
-};
 
 
 const callApiFLWebService= async(actionName,req) =>{
-    console.log('callApi');
     const header = {
         'Content-Type': 'application/json',
       };
@@ -21,15 +19,26 @@ const callApiFLWebService= async(actionName,req) =>{
     
     var res = null;
 
-    console.log(`Start ${actionName}`)
+    // console.log(`Start ${actionName}`)
     await fetch(`http://localhost/FLWebAPI/api/FastLane/${actionName}`,reqInit)
-    .then((response) => response.text())
-    .then((result) => {
-        res= result;
+    .then((response) => 
+    {
+      res = response;
+      if (response.ok) {
+        return response.text();
+      }
+      throw new Error(`HTTP error! Status: ${response.status}`);
     })
-    //.catch((error) => console.log('error from FL API',error))
-
-    //try{
+    .then((result) => {
+      return res= result
+    })
+    .catch(error => {
+      res.text().then(data => {
+        console.log(data);
+      });
+      throw new Error('Failed to fetch data');
+    })
+    
     var array = JSON.parse("[" + res + "]")[0];
       const messageMap = array.reduce((acc, message) => {
       const {name, fields} = message
@@ -45,14 +54,13 @@ const callApiFLWebService= async(actionName,req) =>{
       return acc;
    }, {})
 
-   console.log(messageMap);
+   console.log(`${actionName}Response:`, messageMap);
    return messageMap;    
   //}
 
   // catch(error){
   //   console.log('error from FL API response', error);
   // }
-  //return res;
 }
 
 export const initReq = async(machineName) => {
@@ -71,7 +79,6 @@ export const signInReq = async({userId, password}) => {
     UserId: userId,
     Password:password
   };
-  console.log(reqArguments);
   const req = generateReq(generateReqArrayFiels(reqArguments),"SignOn")
   console.log('SignOnReq:', req);
   const res =await callApiFLWebService('Signon', req);
@@ -88,7 +95,7 @@ export const addCustomerReq = async(customerNumber) => {
   return res;
 }
 
-export const addItemReq = async({upc, quantity}) => {
+export const addItemReq = async(upc, quantity) => {
   let reqArguments ={
     UPC: upc,
     Quantity:quantity

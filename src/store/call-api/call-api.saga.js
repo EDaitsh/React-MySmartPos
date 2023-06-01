@@ -5,20 +5,17 @@ import * as actions from "./call-api.action"
 
 
 function* handleApiCall(action) {
-  console.log(action);
-  //const { type, payload } = action;
   const { type, payload, resolve, reject } = action;
   const actionName = type.split('_')[0]; // Get the action name from the action type
-  console.log(actionName);
-  console.log (`${actionName}Req`);
 
   try {
     const response = yield call(apiActions[`${actionName}Req`], payload);
-    yield put(actions[`${actionName}Success`](response));
+    // yield put(actions[`${actionName}Success`](response));
+    yield put(actions.callAPISuccess(response));
     resolve(response);
   } catch (error) {
-    yield put(actions[`${actionName}Failed`](error));
-    //reject(error);
+    yield put(actions.callAPIFailed(error));
+    reject(error);
   }
 }
 

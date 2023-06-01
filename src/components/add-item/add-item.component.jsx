@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCartItems } from '../../store/cart/cart.selector';
 
 import { addItemToCart } from '../../store/cart/cart.action';
+import Button from '../button/button.component';
 
 import './add-item.styles.scss'
 
@@ -31,7 +32,6 @@ const AddItem = () => {
         
         try{
             dispatch(await addItemToCart(cartItems, upc, quantity));
-            console.log(cartItems);
             resetFormFields();
         } catch(error){
             console.log(error);
@@ -58,9 +58,11 @@ const AddItem = () => {
                     name="quantity"
                     value={quantity}
                 />
-                <button>
-                    +
-                </button>
+                <Button 
+                    htmlContent='+'
+                    action= 'addItem'
+                    loadingText=''
+                    />
             
             </form>
         </div>
