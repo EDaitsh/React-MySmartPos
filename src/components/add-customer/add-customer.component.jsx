@@ -8,7 +8,7 @@ import { CALL_API_ACTION_TYPE } from '../../store/call-api/call-api.types';
 
 import './add-customer.styles.scss'
 
-import { setLoyaltyNumber } from '../../store/loyalty/loyalty.action';
+import { setLoyaltyNumber } from '../../store/loyalty/loyalty.reducer';
 
 const defaultFormFields = {
     customerNumber: ''

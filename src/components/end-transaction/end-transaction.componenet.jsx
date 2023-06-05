@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { initialCartState } from "../../store/cart/cart.action";
-import { initLoyaltyNumber } from "../../store/loyalty/loyalty.action";
+import { initLoyaltyNumber } from "../../store/loyalty/loyalty.reducer";
 import { selectCartTotal } from "../../store/cart/cart.selector";
 
 import Button from "../button/button.component"

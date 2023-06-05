@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { initialCartState } from '../../store/cart/cart.action';
-import { initLoyaltyNumber } from '../../store/loyalty/loyalty.action';
+import { initLoyaltyNumber } from '../../store/loyalty/loyalty.reducer';
 
 import Button from '../button/button.component';
 import { callApi } from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils';
