@@ -1,11 +1,10 @@
-import { call, all, put, select, takeLatest } from 'redux-saga/effects';
+import { call, all, put, takeLatest } from 'redux-saga/effects';
 
-import { selectCartItems } from '../cart/cart.selector';
 import * as apiActions from "../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils";
 import {callAPISuccess, callAPIFailed} from "./call-api.action"
 import { CALL_API_ACTION_TYPE } from './call-api.types';
 
-import { addItemToCart , removeItemFromCart } from '../cart/cart.action';
+import { addItemToCart, removeItemFromCart } from '../cart/cart.reducer';
 
 
 function* handleApiCall(action) {
@@ -26,9 +25,8 @@ function* handleAddItem(action){
   const { payload, resolve, reject } = action;
   try {
     const response = yield call(apiActions.addItemReq, payload);
-    const cartItems = yield select(selectCartItems);
 
-    yield put(addItemToCart(cartItems, response["ItemSold"]));
+    yield put(addItemToCart(response["ItemSold"]));
     yield put(callAPISuccess(response));
     resolve(response);
   } catch (error) {
@@ -41,8 +39,7 @@ function* handleVoidItem(action){
   const { payload, resolve, reject } = action;
   try {
     const response = yield call(apiActions.voidItemReq, payload);
-    const cartItems = yield select(selectCartItems);
-    yield put(removeItemFromCart(cartItems, payload));
+    yield put(removeItemFromCart(payload));
     yield put(callAPISuccess(response));
     resolve(response);
   } catch (error) {

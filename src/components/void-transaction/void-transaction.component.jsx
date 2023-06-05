@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { initialCartState } from '../../store/cart/cart.action';
+import { initialCartState } from '../../store/cart/cart.reducer';
 import { initLoyaltyNumber } from '../../store/loyalty/loyalty.reducer';
 
 import Button from '../button/button.component';
