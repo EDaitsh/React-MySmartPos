@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectCartItems } from '../../store/cart/cart.selector';
+import { useDispatch } from 'react-redux';
+import { CALL_API_ACTION_TYPE } from '../../store/call-api/call-api.types';
+import { callApi } from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils';
 
-import { addItemToCart } from '../../store/cart/cart.action';
 import Button from '../button/button.component';
 
 import './add-item.styles.scss'
@@ -16,7 +16,6 @@ const AddItem = () => {
     const dispatch = useDispatch();
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {upc, quantity} = formFields;
-    const cartItems = useSelector(selectCartItems);
 
     const handlerChange = (event) => {
         const {name, value} = event.target;
@@ -29,13 +28,16 @@ const AddItem = () => {
 
     const addItemHandler= async(event) => {
         event.preventDefault();
-        
-        try{
-            dispatch(await addItemToCart(cartItems, upc, quantity));
-            resetFormFields();
-        } catch(error){
-            console.log(error);
-        }
+        callApi(
+            CALL_API_ACTION_TYPE.ADDITEM_REQUEST,
+            {upc, quantity}, 
+            dispatch
+            ).then((response) => {
+                resetFormFields();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
 

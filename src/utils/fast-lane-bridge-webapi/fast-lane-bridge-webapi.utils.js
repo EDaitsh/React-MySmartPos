@@ -19,7 +19,6 @@ const callApiFLWebService= async(actionName,req) =>{
     
     var res = null;
 
-    // console.log(`Start ${actionName}`)
     await fetch(`http://localhost/FLWebAPI/api/FastLane/${actionName}`,reqInit)
     .then((response) => 
     {
@@ -56,11 +55,6 @@ const callApiFLWebService= async(actionName,req) =>{
 
    console.log(`${actionName}Response:`, messageMap);
    return messageMap;    
-  //}
-
-  // catch(error){
-  //   console.log('error from FL API response', error);
-  // }
 }
 
 export const initReq = async(machineName) => {
@@ -95,7 +89,7 @@ export const addCustomerReq = async(customerNumber) => {
   return res;
 }
 
-export const addItemReq = async(upc, quantity) => {
+export const addItemReq = async({upc, quantity = 1}) => {
   let reqArguments ={
     UPC: upc,
     Quantity:quantity
@@ -106,7 +100,7 @@ export const addItemReq = async(upc, quantity) => {
   return res;
 }
 
-export const voidItemReq = async({upc, quantity}) => {
+export const voidItemReq = async({upc, quantity=1}) => {
   const reqArguments = {
     UPC: upc,
     Quantity:quantity,

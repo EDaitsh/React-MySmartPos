@@ -1,7 +1,6 @@
-import { useContext } from 'react';
 import { useDispatch } from 'react-redux';
-
-import { addItemToCart, removeItemFromCart, clearItemFromCart } from '../../store/cart/cart.action';
+import { callApi } from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils';
+import { CALL_API_ACTION_TYPE } from '../../store/call-api/call-api.types';
 
 import './cart-item.styles.scss'
 
@@ -10,15 +9,27 @@ const CartItem = ({cartItem}) => {
     const {description, upc, price, quantity} = cartItem;
 
     const addItemHandler = () => {
-        dispatch(addItemToCart(cartItem.upc));
+        callApi(
+            CALL_API_ACTION_TYPE.ADDITEM_REQUEST,
+            {upc}, 
+            dispatch
+        );
     };
 
     const removeItemHandler= ()=> {
-        dispatch(removeItemFromCart(cartItem));
+        callApi(
+            CALL_API_ACTION_TYPE.VOIDITEM_REQUEST,
+            {upc}, 
+            dispatch
+        );
     }
 
     const clearItemHandler =()=> {
-        dispatch(clearItemFromCart(cartItem));
+        callApi(
+            CALL_API_ACTION_TYPE.VOIDITEM_REQUEST,
+            {upc, quantity}, 
+            dispatch
+        );
     }
 
     return(
@@ -37,6 +48,5 @@ const CartItem = ({cartItem}) => {
         )
 
 }
-
 
 export default CartItem;
