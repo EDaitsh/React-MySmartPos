@@ -5,17 +5,21 @@ const INITIAL_STATE = {
     cartItems: [],
 }
 
-const addCartItem = (cartItems, productToAdd) => {
+const addCartItem = (cartItems, addItem) => {
+    //console.log(productToAdd);
+    const productToAdd = addItem["ItemSold"];
+    const promotion = addItem["DiscountApplied"];
     console.log(productToAdd);
+    console.log(promotion);
     const existsingCartItem = cartItems.find((cartItem) => cartItem.upc === productToAdd.upc);
     if(existsingCartItem){
         return cartItems.map((cartItem) => 
             cartItem.upc === productToAdd.upc 
-            ? {...cartItem, quantity: parseInt(cartItem.quantity) + parseInt(productToAdd.quantity)}
+            ? {...cartItem, quantity: parseInt(cartItem.quantity) + parseInt(productToAdd.quantity), promotion: promotion}
             : cartItem
         );
     }
-    return [...cartItems, {...productToAdd}]
+    return [...cartItems, {...productToAdd, promotion: promotion}]
 }
 
 

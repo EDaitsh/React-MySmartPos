@@ -26,7 +26,7 @@ function* handleAddItem(action){
   try {
     const response = yield call(apiActions.addItemReq, payload);
 
-    yield put(addItemToCart(response["ItemSold"]));
+    yield put(addItemToCart(response));
     yield put(callAPISuccess(response));
     resolve(response);
   } catch (error) {

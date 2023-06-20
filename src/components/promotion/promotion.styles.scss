@@ -1,0 +1,26 @@
+.promotion-container {
+    width: 100%;
+    display: flex;
+    border-bottom: 1px solid darkgrey;
+    padding: 15px 0;
+    font-size: 20px;
+    color: red;
+    align-items: center;
+  
+    .name
+     {
+      width: 35%;
+    }
+
+    .space1{
+        width: 25%;
+    }
+
+    .space2,
+    .amount
+    {
+        width: 15%;
+    }
+
+  }
+  

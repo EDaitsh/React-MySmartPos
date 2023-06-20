@@ -17,9 +17,18 @@
       }
     }
     .name,
+    {
+      width: 35%
+    }
+
+    .upc
+    {
+      width: 25%;
+    }
+    
     .quantity,
     .price {
-      width: 23%;
+      width: 15%;
     }
   
     .quantity {
