@@ -1,6 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const INITIAL_STATE = {
+export type LoyaltyState = {
+    readonly loyaltyNumber: string;
+}
+
+const INITIAL_STATE : LoyaltyState = {
     loyaltyNumber: ''
 }
 
@@ -8,7 +12,7 @@ export const loyaltySlice = createSlice({
     name: 'loyalty',
     initialState: INITIAL_STATE,
     reducers: {
-        setLoyaltyNumber(state, action){
+        setLoyaltyNumber(state, action: PayloadAction< string, string>){
             state.loyaltyNumber= action.payload
         },
         initLoyaltyNumber(state){
@@ -20,3 +24,5 @@ export const loyaltySlice = createSlice({
 export const {setLoyaltyNumber, initLoyaltyNumber} = loyaltySlice.actions;
 
 export const loyaltyReducer = loyaltySlice.reducer;
+
+

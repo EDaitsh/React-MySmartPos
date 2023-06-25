@@ -1,4 +1,4 @@
-import {all, call} from 'redux-saga/effects'
+import {all, call} from 'typed-redux-saga/macro'
 import { APISagas } from './call-api/call-api.saga';
 
 

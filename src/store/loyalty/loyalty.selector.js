@@ -1,1 +1,0 @@
-export const selectLoyaltyNumer = (state) => state.loyalty.loyaltyNumber;
