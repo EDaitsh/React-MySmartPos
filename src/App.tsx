@@ -3,7 +3,6 @@ import { useEffect,  Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCallApiIsLoading } from './store/call-api/call-api.selector';
 
-import { initRequest } from './store/call-api/call-api.action';
 import { callApi } from './utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils';
 
 import { selectCallApiActionActive } from './store/call-api/call-api.selector';
@@ -23,7 +22,6 @@ const App= () => {
   const isActionActive = useSelector(selectCallApiActionActive)[0] === 'init';
 
     useEffect(()=> {
-        //dispatch(initRequest('WILED250178-7NM'))
         callApi(
           CALL_API_ACTION_TYPE.INIT_REQUEST, 
           'WILED250178-7NM', 
@@ -46,7 +44,7 @@ const App= () => {
           </Routes>
       }
     </Fragment>
-  );
+  )
 }
 
 export default App;

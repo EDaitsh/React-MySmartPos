@@ -1,4 +1,4 @@
-
+import {FC, ButtonHTMLAttributes } from 'react';
 import './button.styles.scss'
 import { useSelector } from 'react-redux';
 import { selectCallApiIsLoading, selectCallApiActionActive } from '../../store/call-api/call-api.selector';
@@ -8,15 +8,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 
-export const BUTTON_TYPE_CLASSES = {
-    base: 'base',
-    endTransaction: 'endTransaction'
+export enum BUTTON_TYPE_CLASSES  {
+    base= 'base',
+    endTransaction= 'endTransaction'
 }
 
+export type ButtonProps = {
+    htmlContent: string ;
+    buttonType?: BUTTON_TYPE_CLASSES;
+    loadingText?: string;
+    action: string;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button = ({
+const Button: FC<ButtonProps> =  ({
                 htmlContent, 
-                buttonType,
+                buttonType = BUTTON_TYPE_CLASSES.base,
                 loadingText = 'Please wait...', 
                 action,  
                 ...otherProps}) => 

@@ -1,6 +1,14 @@
-import './promotion.styles.scss'
+import {FC} from 'react'
 
-export const Promotion = ({promotion}) => {
+
+import './promotion.styles.scss'
+import { Promotion as PromotionType } from '../../store/cart/cart.types';
+type PromotionProps = {
+    promotion: PromotionType
+}
+
+
+export const Promotion: FC<PromotionProps> = ({promotion}) => {
     const {amount, description} = promotion;
 
     return (

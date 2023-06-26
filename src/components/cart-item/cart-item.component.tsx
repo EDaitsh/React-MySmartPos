@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, FC } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { callApi } from '../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils';
@@ -8,7 +8,13 @@ import Promotion from '../promotion/promotion.component';
 
 import './cart-item.styles.scss'
 
-const CartItem = ({cartItem}) => {
+import { Item } from '../../store/cart/cart.types';
+
+type CartItemProps = {
+    cartItem : Item
+}
+
+const CartItem: FC<CartItemProps> = ({cartItem}) => {
     const dispatch = useDispatch();
     const {description, upc, price, quantity, promotion} = cartItem;
 

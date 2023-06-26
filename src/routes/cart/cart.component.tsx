@@ -13,7 +13,7 @@ import { selectCartCount } from "../../store/cart/cart.selector";
 const Cart = () => {
     const navigate = useNavigate();
     const loyaltyNumber = useSelector(selectLoyaltyNumer);
-    const {cartCount} = useSelector(selectCartCount);
+    const cartCount = useSelector(selectCartCount);
 
     const addCustomerHandler = () =>{
       navigate('/addCustomer');

@@ -47,7 +47,7 @@ export type HeaderRequest = {
   'Content-Type': string
 }
 
-export const callApi = (actionName: string, payload: Object, dispatch: Dispatch): Promise<ResponseMap | null>  => 
+export const callApi = (actionName: string, payload: Object | null, dispatch: Dispatch): Promise<ResponseMap | null>  => 
   new Promise<ResponseMap>((resolve: (value: ResponseMap | PromiseLike<ResponseMap>) => void, reject: (error: Error) => void) => {
     dispatch({ type: actionName, payload, resolve, reject });
   });

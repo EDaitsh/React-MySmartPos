@@ -1,5 +1,3 @@
-import { type } from "os";
-
 export enum CALL_API_ACTION_TYPE  {
     
     INIT_REQUEST = 'init_request',

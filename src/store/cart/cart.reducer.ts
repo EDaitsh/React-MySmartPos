@@ -12,16 +12,15 @@ const INITIAL_STATE : CartState = {
 }
 
 const addCartItem = (cartItems: Item[], addItem: AddItem): Item[] => {
-    //console.log(productToAdd);
     const productToAdd: Item = addItem["ItemSold"];
+    productToAdd.quantity = Number(productToAdd.quantity);
     const promotion: Promotion = addItem["DiscountApplied"];
     console.log(productToAdd);
-    console.log(promotion);
     const existsingCartItem = cartItems.find((cartItem) => cartItem.upc === productToAdd.upc);
     if(existsingCartItem){
         return cartItems.map((cartItem) => 
             cartItem.upc === productToAdd.upc 
-            ? {...cartItem, quantity: (cartItem.quantity) + productToAdd.quantity, promotion: promotion}
+            ? {...cartItem, quantity: (cartItem.quantity + productToAdd.quantity), promotion: promotion}
             : cartItem
         );
     }

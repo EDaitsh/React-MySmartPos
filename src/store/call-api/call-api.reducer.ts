@@ -1,5 +1,4 @@
 import { AnyAction } from "redux";
-import { CALL_API_ACTION_TYPE } from "./call-api.types";
 import { addCustomerRequest, addItemRequest, callAPIFailed, callAPISuccess, initRequest, signInRequest, suspendTransactionRequest, voidItemRequest, voidTransactionRequest } from "./call-api.action";
 
 export type CallAPIState = {
