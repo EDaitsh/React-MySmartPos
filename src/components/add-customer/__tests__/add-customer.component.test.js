@@ -31,7 +31,6 @@ describe('Add customer tests', () => {
         const addCustomerInputElement = screen.getByPlaceholderText(/Customer Number/i);
         await fireEvent.input(addCustomerInputElement, { target: { value: mockData } });
 
-        //expect(addCustomerInputElement.value).toBe(mockData);
         jest.spyOn(utils, 'callApi').mockImplementation(mockCallApi).mockResolvedValue(mockResponse);
 
         const addCustomerButtonElement = screen.getByText(/Add Customer/i);
