@@ -1,9 +1,8 @@
-import { screen, fireEvent } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 
 import { renderWithProvider } from "../../../utils/tests/test.utils";
 
 import Button from "../button.component";
-import { preProcessFile } from "typescript";
 
 describe('Button tests', () => {
     test("should be Is Loading... if loading & isButtonActive is true", () => {
@@ -44,8 +43,6 @@ describe('Button tests', () => {
             },
           },
         });
-        // const buttonElement = screen.getByRole('button');
-        // expect(buttonElement).
         const buttonElement = screen.getByText("test");
         expect(buttonElement).toBeInTheDocument();
       });

@@ -5,7 +5,6 @@ import AddCustomer from "../add-customer.component";
 
 import  * as utils  from "../../../utils/fast-lane-bridge-webapi/fast-lane-bridge-webapi.utils";
 
-import { CALL_API_ACTION_TYPE } from "../../../store/call-api/call-api.types";
 
 describe('Add customer tests', () => {
 
