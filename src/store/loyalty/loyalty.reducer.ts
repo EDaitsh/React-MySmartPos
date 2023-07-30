@@ -4,7 +4,7 @@ export type LoyaltyState = {
     readonly loyaltyNumber: string;
 }
 
-const INITIAL_STATE : LoyaltyState = {
+export const INITIAL_STATE : LoyaltyState = {
     loyaltyNumber: ''
 }
 

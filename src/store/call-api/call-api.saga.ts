@@ -9,8 +9,9 @@ import { CALL_API_ACTION_TYPE } from './call-api.types';
 import { addItemToCart, removeItemFromCart } from '../cart/cart.reducer';
 
 
-function* handleApiCall(action: ActionWithPayload<string, string>) {
+export function* handleApiCall(action: ActionWithPayload<string, string>) {
   const { type, payload, resolve, reject } = action;
+  console.log(type);
   const actionName = type.split('_')[0]; // Get the action name from the action type
   const apiAction  = apiActions[`${actionName}Req`] ;
   try {
@@ -24,7 +25,7 @@ function* handleApiCall(action: ActionWithPayload<string, string>) {
   }
 }
 
-function* handleAddItem(action: AddItemRequest){
+export function* handleAddItem(action: AddItemRequest){
   const { payload, resolve, reject } = action;
   try {
     const response = yield* call(apiActions.addItemReq, payload);
@@ -39,7 +40,7 @@ function* handleAddItem(action: AddItemRequest){
   }
 }
 
-function* handleVoidItem(action: VoidItemRequest){
+export function* handleVoidItem(action: VoidItemRequest){
   const { payload, resolve, reject } = action;
   try {
     const response = yield* call(apiActions.voidItemReq, payload);

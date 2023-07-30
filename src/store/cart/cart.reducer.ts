@@ -7,7 +7,7 @@ export type CartState = {
 }
 
 
-const INITIAL_STATE : CartState = {
+export const INITIAL_STATE : CartState = {
     cartItems: [],
 }
 

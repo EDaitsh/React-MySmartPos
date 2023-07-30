@@ -18,7 +18,7 @@ export type ActionState = {
     readonly voidTransaction: boolean,
 }
 
-const INITIAL_STATE: CallAPIState= {
+export const INITIAL_STATE: CallAPIState= {
     response: null,
     isLoading: false,
     error: null,
